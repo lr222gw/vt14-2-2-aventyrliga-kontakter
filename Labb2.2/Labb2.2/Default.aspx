@@ -11,7 +11,13 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+        <asp:ListView ID="ListView" runat="server">
+            <LayoutTemplate>
+                <table runat="server" id="table">
+                    <tr runat="server" id="itemPlaceholder" ></tr>
+                </table>
+            </LayoutTemplate>
+        </asp:ListView>
     </div>
     </form>
     <%--↓ Här är javaScripten ↓--%>

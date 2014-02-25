@@ -7,5 +7,11 @@ namespace Labb2._2.Model
 {
     public class Service
     {
+
+        public Contact GetContact(int ContactId)
+        {
+
+        }
+
     }
 }
