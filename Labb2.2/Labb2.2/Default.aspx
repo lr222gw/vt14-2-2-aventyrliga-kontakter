@@ -6,10 +6,16 @@
 <head runat="server">
     <title>Labb2.2</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="~\Css\style.css" />
+    <link rel="stylesheet" href="~/Css\style.css" />
 </head>
 <body>
     <form id="form1" runat="server">
+
+    <div>
+        <asp:TextBox ID="TextBox" runat="server"></asp:TextBox>
+        <asp:Button ID="Button" runat="server" Text="Button" OnClick="Button_Click" />
+    </div>
+
     <div>
         <asp:ListView ID="ListView" runat="server">
             <LayoutTemplate>
