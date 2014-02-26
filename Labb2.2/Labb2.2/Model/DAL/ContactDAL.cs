@@ -11,6 +11,46 @@ namespace Labb2._2.Model.DAL
     {
 
 
+        public void DeleteContact(int contactId)
+        {
+
+        }
+
+        public void InsertContact(Contact contact)
+        {
+            using(var conn = CreateConnection()){
+
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("Person.uspAddContact",conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 4).Value = contact.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 4).Value = contact.LastName;
+                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 4).Value = contact.EmailAddress;
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    contact.ContactID = (int)cmd.Parameters["@ContactID"].Value;
+
+                    conn.Close();
+
+
+                }
+                catch(Exception ex)
+                {
+                    throw new ArgumentException("kanske ska ha en CustomValidator här istället.." + ex);
+                }
+
+            }
+        }
+
+        public void UpdateContact(Contact contact)
+        {
+
+        }
         public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             var contactListPageWise = new List<Contact>();

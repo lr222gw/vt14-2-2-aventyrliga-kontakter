@@ -31,6 +31,32 @@ namespace Labb2._2
             return Service.getContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
 
+        public void ListView_InsertItem(Contact contact)
+        {
+            if(ModelState.IsValid){
+                Service.saveContact(contact);
+            }
+        }
+
+        // The id parameter name should match the DataKeyNames value set on the control
+        public void ListView_UpdateItem(int id)
+        {
+            Labb2._2.Model.Contact item = null;
+            // Load the item here, e.g. item = MyDataLayer.Find(id);
+            if (item == null)
+            {
+                // The item wasn't found
+                ModelState.AddModelError("", String.Format("Item with id {0} was not found", id));
+                return;
+            }
+            TryUpdateModel(item);
+            if (ModelState.IsValid)
+            {
+                // Save changes here, e.g. MyDataLayer.SaveChanges();
+
+            }
+        }
+
 
     }
 }

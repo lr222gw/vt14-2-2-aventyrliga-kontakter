@@ -12,7 +12,13 @@
     <form id="form1" runat="server">
 
     <div>
-        <asp:ListView ID="ListView" runat="server" ItemType="Labb2._2.Model.Contact"  SelectMethod="ListView_GetData">
+        <asp:ListView ID="ListView" runat="server" 
+            ItemType="Labb2._2.Model.Contact"  
+            SelectMethod="ListView_GetData" 
+            InsertMethod="ListView_InsertItem" 
+            UpdateMethod="ListView_UpdateItem" 
+            DataKeyNames="ContactID" 
+            InsertItemPosition="FirstItem"> <%--Denna krävs för att Insertkontrollen ska sättas ut... --%>
             <LayoutTemplate>
                 <table runat="server" id="table">
                     <tr>
@@ -48,9 +54,42 @@
                     <td>
                         <%#: Item.EmailAddress %>
                     </td>   
-                </tr>                 
-                
+                </tr>                                 
             </ItemTemplate>
+            <InsertItemTemplate>
+                <tr>
+                    <td>
+                        <asp:TextBox runat="server" ID="FirstName" Text='<%#: BindItem.FirstName %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox runat="server" ID="LastName" Text='<%#: BindItem.LastName %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox runat="server" ID="EmailAddress" Text='<%#: BindItem.EmailAddress %>' />
+                    </td>
+                    <td>
+                        <asp:LinkButton runat="server" CommandName="Insert" Text="Lägg till" />
+                        <asp:LinkButton runat="server" CommandName="Cancel" Text="Rensa" CausesValidation="false" />
+                    </td>
+                </tr>                
+            </InsertItemTemplate>
+            <EditItemTemplate>
+                <tr>
+                    <td>
+                        <asp:TextBox runat="server" ID="FirstName" Text='<%#: BindItem.FirstName %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox runat="server" ID="LastName" Text='<%#: BindItem.LastName %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox runat="server" ID="EmailAddress" Text='<%#: BindItem.EmailAddress %>' />
+                    </td>
+                    <td>
+                        <asp:LinkButton runat="server" CommandName="Update" Text="Lägg till" />
+                        <asp:LinkButton runat="server" CommandName="Cancel" Text="Rensa" CausesValidation="false" />
+                    </td>
+                </tr>  
+            </EditItemTemplate>
         </asp:ListView>
     </div>
     </form>
