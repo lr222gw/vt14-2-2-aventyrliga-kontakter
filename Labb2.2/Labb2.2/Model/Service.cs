@@ -15,9 +15,9 @@ namespace Labb2._2.Model
             get { return _contactDAL ?? (_contactDAL = new ContactDAL()); }
         }
 
-        public IEnumerable<Contact> getContactsPageWise(int pageIndex, int pageSize, out int totalRowCount)
+        public IEnumerable<Contact> getContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
-            return ContactDAL.GetContactsPageWise(pageIndex, pageSize, out totalRowCount);
+            return ContactDAL.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
         public IEnumerable<Contact> GetContacts()
         {

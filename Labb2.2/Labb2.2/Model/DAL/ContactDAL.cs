@@ -11,7 +11,7 @@ namespace Labb2._2.Model.DAL
     {
 
 
-        public IEnumerable<Contact> GetContactsPageWise(int pageIndex, int pageSize, out int totalRowCount)
+        public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             var contactListPageWise = new List<Contact>();
                              
@@ -21,8 +21,14 @@ namespace Labb2._2.Model.DAL
 
                     SqlCommand sqlCommand = new SqlCommand("Person.uspGetContactsPageWise", conn);
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.Parameters.Add("@PageIndex", SqlDbType.Int, 4).Value = pageIndex;
-                    sqlCommand.Parameters.Add("@PageSize", SqlDbType.Int, 4).Value = pageSize;
+                    sqlCommand.Parameters.Add("@PageIndex", SqlDbType.Int, 4).Value = (startRowIndex/maximumRows) + 1;//Page index tänker att 1= sida1, 2 = sida2 osv! 
+                                                                                        //MaximumRows är värdet vi satt att i vår datapager (PageSize=15)
+                                                                                        //StartRowIndex är ALLA poster som finns i tabellen, från och med första sidan, tillochmed den sidan man står på
+                                                                                        //Eftersom ALLA sidor har 15 kontakter, så borde det gå att få fram Vilken sida man bör vara på genom att ta
+                                                                                        //StartRowIndex / MaximumRows = PageIndex.. <--problem = när denna exekveras så är värdet på StartRowIndex 0... 
+                                                                                        //LÖSNING! +1 efteråt, om startRowIndex/maximumRows = Noll så blir det alltid + 1..
+                                                                                        //Detta fungerar då MaximumRows är 0 på sida 1 och är 15 på sida 2
+                    sqlCommand.Parameters.Add("@PageSize", SqlDbType.Int, 4).Value = maximumRows;
                     sqlCommand.Parameters.Add("@RecordCount", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
 
 
@@ -54,6 +60,7 @@ namespace Labb2._2.Model.DAL
                 catch
                 {
                     throw new ArgumentException("något blev fel när data hämtades..");
+                    // kanske ska ha en CustomValidator här?...
                 }
             }
             
