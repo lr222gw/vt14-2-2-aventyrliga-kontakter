@@ -49,7 +49,23 @@ namespace Labb2._2.Model.DAL
 
         public void UpdateContact(Contact contact)
         {
+            using(var conn = CreateConnection()){
+                try{
+                    SqlCommand cmd = new SqlCommand("Person.uspUpdateContact", conn);
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contact.ContactID;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 4).Value = contact.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 4).Value = contact.LastName;
+                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 4).Value = contact.EmailAddress;
 
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch
+                {
+                    throw new ArgumentException("Något fel hände vid uppdatering av kontakten..");
+                }
+            }
         }
         public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {

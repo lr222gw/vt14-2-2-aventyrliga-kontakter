@@ -22,7 +22,7 @@ namespace Labb2._2.Model
             }
             else
             {
-
+                ContactDAL.UpdateContact(contact);
             }
 
         }
@@ -35,7 +35,7 @@ namespace Labb2._2.Model
         {
             return ContactDAL.GetContacts();
         }
-        public Contact GetContact(int ContactId)
+        public Contact GetContactById(int ContactId)
         {
             return ContactDAL.GetContactById(ContactId);
         }

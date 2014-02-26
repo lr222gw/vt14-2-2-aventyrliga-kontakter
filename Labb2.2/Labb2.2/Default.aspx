@@ -53,13 +53,17 @@
                     </td>
                     <td>
                         <%#: Item.EmailAddress %>
-                    </td>   
+                    </td> 
+                    <td>
+                        <asp:LinkButton runat="server" CommandName="Delete" Text="Delete" CausesValidation="false" OnClientClick='<%# String.Format("return confirm(\"Är du säker på att du vill radera?\")") %>'/>
+                        <asp:LinkButton runat="server" CommandName="Update" Text="Edit" CausesValidation="false" />
+                    </td>  
                 </tr>                                 
             </ItemTemplate>
             <InsertItemTemplate>
                 <tr>
                     <td>
-                        <asp:TextBox runat="server" ID="FirstName" Text='<%#: BindItem.FirstName %>' />
+                        <asp:TextBox runat="server" ID="FirstName" Text='<%# BindItem.FirstName %>' />
                     </td>
                     <td>
                         <asp:TextBox runat="server" ID="LastName" Text='<%#: BindItem.LastName %>' />
@@ -85,7 +89,7 @@
                         <asp:TextBox runat="server" ID="EmailAddress" Text='<%#: BindItem.EmailAddress %>' />
                     </td>
                     <td>
-                        <asp:LinkButton runat="server" CommandName="Update" Text="Lägg till" />
+                        <asp:LinkButton runat="server" CommandName="Update" Text="Spara" />
                         <asp:LinkButton runat="server" CommandName="Cancel" Text="Rensa" CausesValidation="false" />
                     </td>
                 </tr>  
