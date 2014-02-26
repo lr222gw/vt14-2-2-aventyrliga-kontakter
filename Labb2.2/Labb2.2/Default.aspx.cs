@@ -39,12 +39,12 @@ namespace Labb2._2
         }
 
         // The id parameter name should match the DataKeyNames value set on the control
-        public void ListView_UpdateItem(int id)
+        public void ListView_UpdateItem(int ContactID)
         {
 
             try
             {
-                var contact = Service.GetContactById(id); //med id't så hämtar vi ut en kontakt mha getContactById...
+                var contact = Service.GetContactById(ContactID); //med id't så hämtar vi ut en kontakt mha getContactById...
 
                 if(contact == null){
                     //Skriv kod för att visa error..
@@ -53,8 +53,9 @@ namespace Labb2._2
                     Service.saveContact(contact); // spara ner det uppdaterade i kontakten..
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                throw new ArgumentException(" " + ex);
                 //Skriv kod för att visa error..? 
             }
             

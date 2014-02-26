@@ -52,6 +52,7 @@ namespace Labb2._2.Model.DAL
             using(var conn = CreateConnection()){
                 try{
                     SqlCommand cmd = new SqlCommand("Person.uspUpdateContact", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contact.ContactID;
                     cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 4).Value = contact.FirstName;
                     cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 4).Value = contact.LastName;
@@ -61,9 +62,9 @@ namespace Labb2._2.Model.DAL
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw new ArgumentException("Något fel hände vid uppdatering av kontakten..");
+                    throw new ArgumentException("Något fel hände vid uppdatering av kontakten.." + ex);
                 }
             }
         }
@@ -169,24 +170,29 @@ namespace Labb2._2.Model.DAL
                 try
                 {
 
-                    var getContactCommand = new SqlCommand("Person.uspGetContact");
+                    var getContactCommand = new SqlCommand("Person.uspGetContact",connectionObj);
                     getContactCommand.CommandType = CommandType.StoredProcedure;
                     getContactCommand.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contactId;
-                    getContactCommand.Connection = connectionObj;
+                    
 
 
                     connectionObj.Open();
-                    
+
                     using(var reader = getContactCommand.ExecuteReader())
                     {
+                        if (reader.Read()) // Utan denna fungerar det tydligen inte, lärt mig det den hårda vägen.. 
+                        {
+                            var IEmailAddress = reader.GetOrdinal("EmailAddress"); // hämtar ner Index
+                            var IFirstName = reader.GetOrdinal("FirstName");
+                            var ILastName = reader.GetOrdinal("LastName");
+                            var IContactID = reader.GetOrdinal("ContactID");
 
-                        var EmailAddress = reader.GetOrdinal("EmailAddress"); // hämtar ner Index
-                        var FirstName = reader.GetOrdinal("FirstName");
-                        var LastName = reader.GetOrdinal("LastName");
+                            contact.FirstName = reader.GetString(IFirstName);
+                            contact.LastName = reader.GetString(ILastName);
+                            contact.ContactID = reader.GetInt32(IContactID);
+                            contact.EmailAddress = reader.GetString(IEmailAddress); // använder Index för att hämta ner datan som sätts i kontakt objektet
+                        }
 
-                        contact.EmailAddress = reader.GetString(EmailAddress); // använder Index för att hämta ner datan som sätts i kontakt objektet
-                        contact.FirstName = reader.GetString(FirstName);
-                        contact.LastName = reader.GetString(LastName);                        
                     }
                     connectionObj.Close();
                     
