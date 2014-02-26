@@ -26,7 +26,10 @@ namespace Labb2._2.Model
             }
 
         }
-
+        public void DeleteContact(int contactID)
+        {
+            ContactDAL.DeleteContact(contactID);
+        }
         public IEnumerable<Contact> getContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             return ContactDAL.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);

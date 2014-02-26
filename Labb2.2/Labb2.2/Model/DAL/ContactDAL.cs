@@ -13,7 +13,22 @@ namespace Labb2._2.Model.DAL
 
         public void DeleteContact(int contactId)
         {
+            using(var conn = CreateConnection()){
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("Person.uspRemoveContact", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contactId;
 
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch(Exception ex)
+                {
+                    throw new ArgumentException("Något fel inträffade då en kontakt skulle tas bort" + ex);
+                }
+            }
         }
 
         public void InsertContact(Contact contact)

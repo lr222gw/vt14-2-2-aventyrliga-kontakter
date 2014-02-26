@@ -17,6 +17,7 @@
             SelectMethod="ListView_GetData" 
             InsertMethod="ListView_InsertItem" 
             UpdateMethod="ListView_UpdateItem" 
+            DeleteMethod="ListView_DeleteItem"
             DataKeyNames="ContactID" 
             InsertItemPosition="FirstItem"> <%--Denna krävs för att Insertkontrollen ska sättas ut... --%>
             <LayoutTemplate>
@@ -56,7 +57,7 @@
                     </td> 
                     <td>
                         <asp:LinkButton runat="server" CommandName="Delete" Text="Delete" CausesValidation="false" OnClientClick='<%# String.Format("return confirm(\"Är du säker på att du vill radera?\")") %>'/>
-                        <asp:LinkButton runat="server" CommandName="Update" Text="Edit" CausesValidation="false" />
+                        <asp:LinkButton runat="server" CommandName="Edit" Text="Edit" CausesValidation="false" />
                     </td>  
                 </tr>                                 
             </ItemTemplate>
@@ -73,7 +74,7 @@
                     </td>
                     <td>
                         <asp:LinkButton runat="server" CommandName="Insert" Text="Lägg till" />
-                        <asp:LinkButton runat="server" CommandName="Cancel" Text="Rensa" CausesValidation="false" />
+                        <asp:LinkButton runat="server" CommandName="Cancel" Text="avbryt" CausesValidation="false" />
                     </td>
                 </tr>                
             </InsertItemTemplate>

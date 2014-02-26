@@ -61,6 +61,12 @@ namespace Labb2._2
             
         }
 
+        // The id parameter name should match the DataKeyNames value set on the control
+        public void ListView_DeleteItem(int ContactID)
+        {
+            Service.DeleteContact(ContactID);
+        }
+
 
     }
 }
