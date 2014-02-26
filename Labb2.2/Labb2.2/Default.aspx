@@ -12,17 +12,45 @@
     <form id="form1" runat="server">
 
     <div>
-        <asp:TextBox ID="TextBox" runat="server"></asp:TextBox>
-        <asp:Button ID="Button" runat="server" Text="Button" OnClick="Button_Click" />
-    </div>
-
-    <div>
-        <asp:ListView ID="ListView" runat="server">
+        <asp:ListView ID="ListView" runat="server" ItemType="Labb2._2.Model.Contact"  SelectMethod="ListView_GetData">
             <LayoutTemplate>
                 <table runat="server" id="table">
-                    <tr runat="server" id="itemPlaceholder" ></tr>
-                </table>
+                    <tr>
+                        <th>
+                              Firstname
+                        </th>
+                        <th>
+                              Lastname
+                        </th>
+                        <th>
+                              Mail
+                        </th>
+                    </tr>
+                        <tr id="itemPlaceholder" runat="server">                           
+                    </tr>                                             
+                </table>   
+                <asp:DataPager ID="DataPager" runat="server" PageSize="15" >
+                    <Fields>
+                        <asp:NextPreviousPagerField FirstPageText="<<" ShowFirstPageButton="true" ShowNextPageButton="false" ShowPreviousPageButton="false"/>
+                        <asp:NumericPagerField />
+                        <asp:NextPreviousPagerField LastPageText=">>" ShowLastPageButton="true" ShowFirstPageButton="false" ShowPreviousPageButton="false" />
+                    </Fields>
+                </asp:DataPager>                 
             </LayoutTemplate>
+            <ItemTemplate>
+                <tr>
+                    <td>
+                        <%#: Item.FirstName %></>
+                    </td>
+                    <td>
+                        <%#: Item.LastName %></>
+                    </td>
+                    <td>
+                        <%#: Item.EmailAddress %>
+                    </td>   
+                </tr>                 
+                
+            </ItemTemplate>
         </asp:ListView>
     </div>
     </form>

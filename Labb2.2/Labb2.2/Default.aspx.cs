@@ -20,11 +20,17 @@ namespace Labb2._2
 
         }
 
-        protected void Button_Click(object sender, EventArgs e)
+        // The return type can be changed to IEnumerable, however to support
+        // paging and sorting, the following parameters must be added:
+        //     int maximumRows
+        //     int startRowIndex
+        //     out int totalRowCount
+        //     string sortByExpression
+        public IEnumerable<Contact> ListView_GetData(int maximumRows, int startRowIndex, out int totalRowCount)
         {
-            Contact contact = Service.GetContact(int.Parse(TextBox.Text));
-
-
+            return Service.getContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace Labb2._2.Model
 
         [Required(ErrorMessage="Du måste ange en Email")]
         [StringLength(50)]
-        public string EmailAdress
+        public string EmailAddress
         {
             get;
             set;

@@ -11,7 +11,54 @@ namespace Labb2._2.Model.DAL
     {
 
 
+        public IEnumerable<Contact> GetContactsPageWise(int pageIndex, int pageSize, out int totalRowCount)
+        {
+            var contactListPageWise = new List<Contact>();
+                             
+            using (var conn = CreateConnection())
+            {
+                try {
 
+                    SqlCommand sqlCommand = new SqlCommand("Person.uspGetContactsPageWise", conn);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.Add("@PageIndex", SqlDbType.Int, 4).Value = pageIndex;
+                    sqlCommand.Parameters.Add("@PageSize", SqlDbType.Int, 4).Value = pageSize;
+                    sqlCommand.Parameters.Add("@RecordCount", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
+
+
+                    conn.Open();
+                    sqlCommand.ExecuteNonQuery();
+                    totalRowCount = (int)sqlCommand.Parameters["@RecordCount"].Value; // Denna krävs för att satsen ska fungera, dock vet jag inte riktigt varför.. bara typ..
+                    using (var reader = sqlCommand.ExecuteReader())
+                    {
+
+                        var indexContactID = reader.GetOrdinal("ContactID");
+                        var indexName = reader.GetOrdinal("FirstName");
+                        var indexLastName = reader.GetOrdinal("LastName");
+                        var indexEmail = reader.GetOrdinal("EmailAddress");
+
+                        while (reader.Read())
+                        {
+                            contactListPageWise.Add(new Contact
+                            {
+                                ContactID = reader.GetInt32(indexContactID),
+                                LastName = reader.GetString(indexLastName),
+                                FirstName = reader.GetString(indexName),
+                                EmailAddress = reader.GetString(indexEmail)
+                            });
+                        }
+
+
+                    }
+                }
+                catch
+                {
+                    throw new ArgumentException("något blev fel när data hämtades..");
+                }
+            }
+            
+            return contactListPageWise;
+        }
 
         public IEnumerable<Contact> GetContacts()
         {
