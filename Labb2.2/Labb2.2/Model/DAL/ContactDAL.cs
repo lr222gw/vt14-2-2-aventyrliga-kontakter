@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace Labb2._2.Model.DAL
 {
@@ -26,7 +27,12 @@ namespace Labb2._2.Model.DAL
                 }
                 catch(Exception ex)
                 {
-                    throw new ArgumentException("Något fel inträffade då en kontakt skulle tas bort" + ex);
+                    CustomValidator forArgument = new CustomValidator { 
+                    ErrorMessage = "Du har inte rättighet att ta bort/ändra objektet", // Får denna vara här? (namnrymden..)
+                    IsValid = false,                     
+                    };    
+                                    
+                    //throw new ArgumentException("Något fel inträffade då en kontakt skulle tas bort" + ex);
                 }
             }
         }
@@ -39,10 +45,10 @@ namespace Labb2._2.Model.DAL
                 {
                     SqlCommand cmd = new SqlCommand("Person.uspAddContact",conn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 4).Value = contact.FirstName;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 4).Value = contact.LastName;
-                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 4).Value = contact.EmailAddress;
-                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = contact.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = contact.LastName;
+                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 50).Value = contact.EmailAddress;
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 50).Direction = ParameterDirection.Output;
 
                     conn.Open();
 
@@ -69,9 +75,9 @@ namespace Labb2._2.Model.DAL
                     SqlCommand cmd = new SqlCommand("Person.uspUpdateContact", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contact.ContactID;
-                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 4).Value = contact.FirstName;
-                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 4).Value = contact.LastName;
-                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 4).Value = contact.EmailAddress;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = contact.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = contact.LastName;
+                    cmd.Parameters.Add("@EmailAddress", SqlDbType.VarChar, 50).Value = contact.EmailAddress;
 
                     conn.Open();
                     cmd.ExecuteNonQuery();

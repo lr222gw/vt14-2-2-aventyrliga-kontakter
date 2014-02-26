@@ -15,8 +15,10 @@ namespace Labb2._2.Model
             set;
         }
 
+        //regex från http://stackoverflow.com/questions/16167983/best-regular-expression-for-email-validation-in-c-sharp
         [Required(ErrorMessage="Du måste ange en Email")]
         [StringLength(50)]
+        [RegularExpression(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", ErrorMessage="Du har inte anvigit en giltig Epost-address...")] 
         public string EmailAddress
         {
             get;

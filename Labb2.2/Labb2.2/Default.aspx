@@ -10,7 +10,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-
+        <asp:ValidationSummary ID="ValidationSummary" runat="server" />
     <div>
         <asp:ListView ID="ListView" runat="server" 
             ItemType="Labb2._2.Model.Contact"  
