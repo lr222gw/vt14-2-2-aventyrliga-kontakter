@@ -40,13 +40,22 @@ namespace Labb2._2
         public void ListView_InsertItem(Contact contact)
         {
             if(ModelState.IsValid){
-                if(TryUpdateModel(contact)){
-                    
-                    Service.saveContact(contact);
-                    Session["success"] = "Yay! kontakten är nedsparad!";
+                try
+                {
+                    if (TryUpdateModel(contact))
+                    { // är detta nödvändigt, vad är det jag har gjort här? hmm..
 
-                    Response.Redirect(Request.RawUrl);
+                        Service.saveContact(contact);
+                        Session["success"] = "Yay! kontakten är nedsparad!";
+
+                        Response.Redirect(Request.RawUrl);
+                    }
                 }
+                catch
+                {
+                    ModelState.AddModelError(string.Empty, "ett fel inträffade vid tilläg av kontakt");
+                }
+                
                 
             }
         }
@@ -68,11 +77,15 @@ namespace Labb2._2
                     Session["success"] = "Yay! kontakten är ändrad!";
                     //när jag hade Responose.Redirect(Request.RawUrl) så hamnade jag i Catch???
                 }
+                else
+                {
+                    Session["success"] = "Whoopse! Verkar som kontakten inte är giltig..! Den borde nog inte finnas i databasen";
+                }
             }
             catch(Exception ex)
             {
-                throw new ArgumentException(" " + ex);
-                //Skriv kod för att visa error..? 
+                Session["success"] = "Whoopse! Något fel inträffade vid uppdatering!";
+                ModelState.AddModelError(string.Empty, "Ett fel inträffade under uppdatering av kontakt");
             }
             Response.Redirect(Request.RawUrl); // Response.Redirect till Sidan som den är på, http://stackoverflow.com/questions/2684724/redirect-to-current-page-in-asp-net
             
@@ -81,8 +94,15 @@ namespace Labb2._2
         // The id parameter name should match the DataKeyNames value set on the control
         public void ListView_DeleteItem(int ContactID)
         {
+            try{
             Service.DeleteContact(ContactID);
-            Session["success"] = "Yay! kontakten är RADERAD!!";
+            Session["success"] = "Yay! kontakten är RADERAD!!";            
+            }
+            catch
+            {
+                Session["success"] = "Whoopse! Något fel inträffade vid radering!!";
+                ModelState.AddModelError(string.Empty, "Ett fel har inträffad vid radering av kontakt");
+            }
             Response.Redirect(Request.RawUrl);
         }
 

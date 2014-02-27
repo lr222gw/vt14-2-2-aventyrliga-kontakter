@@ -1,6 +1,7 @@
 ﻿using Labb2._2.Model.DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -15,9 +16,14 @@ namespace Labb2._2.Model
             get { return _contactDAL ?? (_contactDAL = new ContactDAL()); }
         }
 
-        public void saveContact(Contact contact){
-            
-            
+        public void saveContact(Contact contact){ 
+
+            ICollection<ValidationResult> validationResults; // skapar Icollection lista för valideringsresultat..
+            if(!contact.Validate(out validationResults)){ // om kontakten inte validerar..
+                var ex = new ValidationException("Kontakten klarade inte valideringen.."); // Skriv ett meddelande som presenterar felet
+                ex.Data.Add("ValidationResults", validationResults); // lägger till datan från outparametern så att 
+                throw ex; // kastar undantaget
+            }
                 if (contact.ContactID == 0)
                 {
                     ContactDAL.InsertContact(contact);

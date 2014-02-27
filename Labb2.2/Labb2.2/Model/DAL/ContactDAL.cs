@@ -25,14 +25,9 @@ namespace Labb2._2.Model.DAL
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-                catch(Exception ex)
-                {
-                    CustomValidator forArgument = new CustomValidator { 
-                    ErrorMessage = "Du har inte rättighet att ta bort/ändra objektet", // Får denna vara här? (namnrymden..)
-                    IsValid = false,                     
-                    };    
-                                    
-                    //throw new ArgumentException("Något fel inträffade då en kontakt skulle tas bort" + ex);
+                catch (Exception)
+                {                                  
+                    throw new ArgumentException("Något fel inträffade då en kontakt skulle tas bort" );
                 }
             }
         }
@@ -60,9 +55,9 @@ namespace Labb2._2.Model.DAL
 
 
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
-                    throw new ArgumentException("kanske ska ha en CustomValidator här istället.." + ex);
+                    throw new ArgumentException("kanske ska ha en CustomValidator här istället..");
                 }
 
             }
@@ -83,9 +78,9 @@ namespace Labb2._2.Model.DAL
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
-                    throw new ArgumentException("Något fel hände vid uppdatering av kontakten.." + ex);
+                    throw new ArgumentException("Något fel hände vid uppdatering av kontakten..");
                 }
             }
         }
