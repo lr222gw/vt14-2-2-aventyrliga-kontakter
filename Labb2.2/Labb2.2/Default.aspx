@@ -37,7 +37,7 @@
                         <tr id="itemPlaceholder" runat="server">                           
                     </tr>                                             
                 </table>   
-                <asp:DataPager ID="DataPager" runat="server" PageSize="15" >
+                <asp:DataPager ID="DataPager" runat="server" PageSize="15" QueryStringField="pagenr"> <%--med hjälp av QueryStringField så läggs automatisk en Querystring på! --%>
                     <Fields>
                         <asp:NextPreviousPagerField FirstPageText="<<" ShowFirstPageButton="true" ShowNextPageButton="false" ShowPreviousPageButton="false"/>
                         <asp:NumericPagerField />
