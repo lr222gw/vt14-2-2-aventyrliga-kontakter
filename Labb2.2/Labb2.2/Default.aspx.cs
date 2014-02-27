@@ -17,6 +17,12 @@ namespace Labb2._2
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["success"] != null) // om denna ej är null, så finns något i den. använd det och töm variabeln..
+            {
+                success.Text = Session["success"].ToString();
+                success.Visible = true;
+                Session["success"] = "";
+            }
 
         }
 
@@ -34,7 +40,14 @@ namespace Labb2._2
         public void ListView_InsertItem(Contact contact)
         {
             if(ModelState.IsValid){
-                Service.saveContact(contact);
+                if(TryUpdateModel(contact)){
+                    
+                    Service.saveContact(contact);
+                    Session["success"] = "Yay! kontakten är nedsparad!";
+
+                    Response.Redirect(Request.RawUrl);
+                }
+                
             }
         }
 
@@ -51,6 +64,9 @@ namespace Labb2._2
                 }
                 if(TryUpdateModel(contact)){ //om kontakten är giltig
                     Service.saveContact(contact); // spara ner det uppdaterade i kontakten..
+
+                    Session["success"] = "Yay! kontakten är ändrad!";
+                    //när jag hade Responose.Redirect(Request.RawUrl) så hamnade jag i Catch???
                 }
             }
             catch(Exception ex)
@@ -58,6 +74,7 @@ namespace Labb2._2
                 throw new ArgumentException(" " + ex);
                 //Skriv kod för att visa error..? 
             }
+            Response.Redirect(Request.RawUrl); // Response.Redirect till Sidan som den är på, http://stackoverflow.com/questions/2684724/redirect-to-current-page-in-asp-net
             
         }
 
@@ -65,6 +82,8 @@ namespace Labb2._2
         public void ListView_DeleteItem(int ContactID)
         {
             Service.DeleteContact(ContactID);
+            Session["success"] = "Yay! kontakten är RADERAD!!";
+            Response.Redirect(Request.RawUrl);
         }
 
 
