@@ -43,7 +43,7 @@ namespace Labb2._2
                 try
                 {
                     if (TryUpdateModel(contact))
-                    { // är detta nödvändigt, vad är det jag har gjort här? hmm..
+                    { // är detta nödvändigt, vad är det jag har gjort här? hmm.. om kontakten är giltig så kan den sparas... låter bra! 
 
                         Service.saveContact(contact);
                         Session["success"] = "Yay! kontakten är nedsparad!";
