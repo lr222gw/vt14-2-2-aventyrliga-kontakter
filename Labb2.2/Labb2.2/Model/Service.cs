@@ -16,14 +16,16 @@ namespace Labb2._2.Model
         }
 
         public void saveContact(Contact contact){
-
-            if(contact.ContactID==0){
-                ContactDAL.InsertContact(contact);
-            }
-            else
-            {
-                ContactDAL.UpdateContact(contact);
-            }
+            
+            
+                if (contact.ContactID == 0)
+                {
+                    ContactDAL.InsertContact(contact);
+                }
+                else
+                {
+                    ContactDAL.UpdateContact(contact);
+                }                        
 
         }
         public void DeleteContact(int contactID)
